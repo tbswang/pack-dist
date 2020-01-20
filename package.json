@@ -1,24 +1,24 @@
 {
-  "name": "tmp",
-  "version": "0.1.0",
+  "name": "pack-pack",
+  "version": "0.1.1",
   "private": true,
   "config": {
     "pack": {
       "prefix": "时空数据管理平台",
       "versionPrefix": "v",
-      "testVersion": 0,
-      "prodVersion": 0,
+      "testVersion": 2,
+      "prodVersion": 1,
       "suffix": "zip"
     }
   },
   "scripts": {
-    "start": "npm run serve",
-    "serve": "vue-cli-service serve",
-    "build:test": "vue-cli-service build --mode integration && tar -zcvf 时空数据管理平台-测试.tar dist",
-    "build": "SET NODE_ENV = production && node build.js",
-    "lint": "vue-cli-service lint"
+    "build": "NODE_ENV=production node ./tar.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "archiver": "^3.1.1",
+    "async": "^3.1.0",
+    "cli-progress": "^3.5.0"
+  },
   "devDependencies": {},
   "browserslist": [
     "> 1%",
