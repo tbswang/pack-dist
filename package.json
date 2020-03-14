@@ -1,28 +1,11 @@
 {
-  "name": "pack-pack",
-  "version": "0.1.1",
+  "name": "pack-dist",
+  "version": "0.2.0",
   "private": true,
-  "config": {
-    "pack": {
-      "prefix": "时空数据管理平台",
-      "versionPrefix": "v",
-      "testVersion": 2,
-      "prodVersion": 1,
-      "suffix": "zip"
-    }
-  },
-  "scripts": {
-    "build": "NODE_ENV=production node ./tar.js"
-  },
+  "bin": "./index.js",
   "dependencies": {
     "archiver": "^3.1.1",
     "async": "^3.1.0",
     "cli-progress": "^3.5.0"
-  },
-  "devDependencies": {},
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  }
 }

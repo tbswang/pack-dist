@@ -1,18 +1,21 @@
+#! /usr/bin/env node
 /**
  * 基于https://github.com/archiverjs/node-archiver/blob/master/examples/progress.js进行修改
- * 功能：将dist目录下的文件打包成一个压缩文件。生成的文件名如： `xxx-测试-1-15v2.zip`
  * 场景：有时候需要将前端的打包文件进行发布或者部署，需要自己压缩，然后重命名。现在通过该文件可以实现自动化。
  * TODO：在windows平台下还没有进行测试。
  * 使用：运行`node ./tar.js`, 在同级目录下生成文件. 第一次使用会在package.json文件中的`config`字段中添加`pack`配置.
  */
 
 const archiver = require('archiver');
-const packageFile = require('./package.json');
 const async = require('async');
 const fs = require('fs');
 const cliProgress = require('cli-progress');
 const path = require('path');
 
+const projectPath = process.cwd();
+
+const packageFile = require(path.join(projectPath, 'package.json'));
+const { version, name } = packageFile;
 /**
  * You can use a nodejs module to do this, this function is really straightforward and will fail on error
  * Note that when computing a directory size you may want to skip some errors (like ENOENT)
@@ -61,28 +64,9 @@ function bytesToSize(bytes) {
   return `${Math.round(bytes / (1024 ** i), 2)} ${sizes[i]}`;
 }
 
-const isProduction = process.env.NODE_ENV === 'production';
-
-if (!packageFile.config) {
-  Object.assign(packageFile, { config: { pack: {} } });
-}
-
-const {
-  prefix = '',
-  target = isProduction ? '正式' : '测试',
-  versionPrefix = 'v',
-  testVersion = 0,
-  prodVersion = 0,
-  suffix = 'zip',
-  date = `${new Date().getYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
-} = packageFile.config.pack;
-
-const version = isProduction ? prodVersion : testVersion;
-const curVersion = parseInt(version, 10) + 1;
-
 // You can change this by something bigger!
-const directory = './dist';
-const destination = `./${prefix ? `${prefix}-` : ''}${target}${date}${versionPrefix}${curVersion}.${suffix}`;
+const directory = path.join(projectPath, 'dist');
+const destination = path.join(projectPath,`${name}@${version}.zip`);
 const destinationStream = fs.createWriteStream(destination);
 
 console.log('Zipping %s to %s', directory, destination);
@@ -111,12 +95,6 @@ directorySize(directory, (err, totalSize) => {
     bar.stop();
 
     console.log('Archiver wrote %s bytes', bytesToSize(archiveSize));
-
-    packageFile.config.pack[isProduction ? 'prodVersion' : 'testVersion'] = curVersion;
-    fs.writeFileSync(
-      path.join(__dirname, '/package.json'),
-      `${JSON.stringify(packageFile, null, 2)}\n`
-    );
   });
 
   archive.pipe(destinationStream);
