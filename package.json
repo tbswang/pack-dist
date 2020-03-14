@@ -1,7 +1,6 @@
 {
   "name": "pack-dist",
-  "version": "0.2.0",
-  "private": true,
+  "version": "0.2.1",
   "bin": "./index.js",
   "dependencies": {
     "archiver": "^3.1.1",
