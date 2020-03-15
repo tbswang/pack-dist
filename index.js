@@ -65,7 +65,7 @@ function bytesToSize(bytes) {
 }
 
 // You can change this by something bigger!
-const directory = path.join(projectPath, 'dist');
+const directory = './dist';
 const destination = path.join(projectPath,`${name}@${version}.zip`);
 const destinationStream = fs.createWriteStream(destination);
 
