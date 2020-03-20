@@ -13,6 +13,7 @@ const cliProgress = require('cli-progress');
 const path = require('path');
 
 const projectPath = process.cwd();
+const [,,destinationName] = process.argv;
 
 const packageFile = require(path.join(projectPath, 'package.json'));
 const { version, name } = packageFile;
@@ -66,7 +67,9 @@ function bytesToSize(bytes) {
 
 // You can change this by something bigger!
 const directory = './dist';
-const destination = path.join(projectPath,`${name}@${version}.zip`);
+const destination = destinationName
+  ? path.join(projectPath, `${destinationName}.zip`)
+  : path.join(projectPath,`${name}@${version}.zip`);
 const destinationStream = fs.createWriteStream(destination);
 
 console.log('Zipping %s to %s', directory, destination);
