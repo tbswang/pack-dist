@@ -2,7 +2,11 @@
 
 将dist文件夹打包成压缩包
 
+## install
+```
+npm i pack-dist -g
+```
 ## How to use
 ```
-npx pack-dist
+pack-dist
 ```

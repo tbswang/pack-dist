@@ -3,7 +3,6 @@
  * 基于https://github.com/archiverjs/node-archiver/blob/master/examples/progress.js进行修改
  * 场景：有时候需要将前端的打包文件进行发布或者部署，需要自己压缩，然后重命名。现在通过该文件可以实现自动化。
  * TODO：在windows平台下还没有进行测试。
- * 使用：运行`node ./tar.js`, 在同级目录下生成文件. 第一次使用会在package.json文件中的`config`字段中添加`pack`配置.
  */
 
 const archiver = require('archiver');
