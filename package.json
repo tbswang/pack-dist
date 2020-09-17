@@ -1,6 +1,6 @@
 {
   "name": "pack-dist",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "bin": "./index.js",
   "dependencies": {
     "archiver": "^3.1.1",

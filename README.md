@@ -8,5 +8,10 @@ npm i pack-dist -g
 ```
 ## How to use
 ```
-pack-dist
+pack-dist [源目录(默认dist目录)] [目标文件名]
+```
+
+## 发布
+```
+npm publish
 ```

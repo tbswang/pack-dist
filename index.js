@@ -12,7 +12,7 @@ const cliProgress = require('cli-progress');
 const path = require('path');
 
 const projectPath = process.cwd();
-const [,,destinationName] = process.argv;
+const [,,sourceDirectoryName = './dist', destinationName] = process.argv;
 
 const packageFile = require(path.join(projectPath, 'package.json'));
 const { version, name } = packageFile;
@@ -65,18 +65,17 @@ function bytesToSize(bytes) {
 }
 
 // You can change this by something bigger!
-const directory = './dist';
 const destination = destinationName
   ? path.join(projectPath, `${destinationName}.zip`)
   : path.join(projectPath,`${name}@${version}.zip`);
 const destinationStream = fs.createWriteStream(destination);
 
-console.log('Zipping %s to %s', directory, destination);
+console.log('Zipping %s to %s', sourceDirectoryName, destination);
 
 // To find out the progression, we may prefer to first calculate the size of the zip's future content
 // For this, we need to recursivly `readDir` and get the size from a `stat` call on every file.
 // Note that Archiver is also computing the total size, but it's done asynchronously and may not be accurate
-directorySize(directory, (err, totalSize) => {
+directorySize(sourceDirectoryName, (err, totalSize) => {
   const archive = archiver('zip');
 
   archive.on('error', (archiveErr) => {
@@ -101,7 +100,7 @@ directorySize(directory, (err, totalSize) => {
 
   archive.pipe(destinationStream);
 
-  archive.directory(directory);
+  archive.directory(sourceDirectoryName);
 
   archive.finalize();
 });
